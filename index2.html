@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Agendamento</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            position: relative;
+            width: 400px;
+            height: 500px;
+        }
+        .image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #000;
+            font-weight: bold;
+        }
+        .field {
+            position: absolute;
+            font-size: 1.2rem; /* Tamanho da Fonte */
+        }
+        #name-field {
+            top: 17%; /* Ajuste do campo Nome */
+            left: 48%;
+        }
+        #date-field {
+            top: 43%; /* Ajuste do campo Data */
+            left: 30%;
+        }
+        #time-field {
+            top: 51%; /* Ajuste do campo Hora */
+            left: 30%;
+        }
+        .form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .form input, .form button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .form button {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form button:hover {
+            background-color: #555;
+        }
+        #download-link {
+            display: none;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="capture">
+    <img src="image_camila2.jpg" alt="Confirmação de Agendamento" class="image">
+
+    <div class="overlay">
+        <div id="name-field" class="field"> <span id="display-name">__________</span></div>
+        <div id="date-field" class="field"> <span id="display-date">__/__/____</span></div>
+        <div id="time-field" class="field"> <span id="display-time">__:__</span></div>
+    </div>
+</div>
+
+<div class="form">
+    <input type="text" id="name" placeholder="Digite seu nome">
+    <input type="date" id="date">
+    <input type="time" id="time">
+    <button onclick="updateDetails()">Confirmar</button>
+    <button onclick="generateImage()">Gerar Imagem</button>
+</div>
+
+<a id="download-link" download="agendamento.png">Clique aqui para baixar a imagem</a>
+
+<script>
+    function updateDetails() {
+        const name = document.getElementById('name').value;
+        const date = document.getElementById('date').value;
+        const time = document.getElementById('time').value;
+        
+        document.getElementById('display-name').innerText = name;
+        document.getElementById('display-date').innerText = date.split('-').reverse().join('/');
+        document.getElementById('display-time').innerText = time;
+    }
+
+    function generateImage() {
+        html2canvas(document.getElementById('capture')).then(function(canvas) {
+            const imgData = canvas.toDataURL('image/png');
+
+            const downloadLink = document.getElementById('download-link');
+            downloadLink.href = imgData;
+            downloadLink.style.display = 'block';
+        });
+    }
+</script>
+
+</body>
+</html>
